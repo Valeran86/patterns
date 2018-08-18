@@ -27,8 +27,11 @@ public class EmployerDAO {
                     "  and sp.date <= ? " +
                     "group by emp.id, emp.name";
 
-    @Autowired
-    Connection connection;
+    final Connection connection;
+
+    public EmployerDAO( Connection connection ) {
+        this.connection = connection;
+    }
 
     public ReportDepartmentResultDto getSalaryByDepartment( ReportDepartmentDto reportDepartmentDto ) throws SQLException {
         // prepare statement with sql
@@ -43,13 +46,14 @@ public class EmployerDAO {
         ResultSet resultSet = ps.executeQuery();
         double totals = 0;
         while ( resultSet.next() ) {
+            double value = resultSet.getDouble( SALARY );
             Object[] row = new Object[] {
                     resultSet.getString( EMP_NAME )
-                    ,resultSet.getDouble( SALARY )
+                    , value
             };
             resultDto.appendRow( row );
 
-            totals += resultSet.getDouble( SALARY ); // add salary to totals
+            totals += value; // add salary to totals
         }
         resultDto.appendTotal( new Object[] { "Total", totals } );
 

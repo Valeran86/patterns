@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 public class MailSender {
     public static final String HOST = "mail.google.com";
 
-    public static void send( ReportDto reportDto ) throws MessagingException {
+    public void send( ReportDto reportDto ) throws MessagingException {
         // now when the report is built we need to send it to the recipients list
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         // we're going to use google mail to send this message

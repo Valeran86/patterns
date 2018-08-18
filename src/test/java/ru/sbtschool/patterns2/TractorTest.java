@@ -21,7 +21,7 @@ public class TractorTest {
                         .left( -5 )
                         .right( 5 )
                         .top( 5 )
-                        .bottom( 5 )
+                        .bottom( -5 )
                         .build()
         );
     }

@@ -14,8 +14,13 @@ import java.time.LocalDate;
 
 public class SalaryHtmlReportNotifier {
 
-    @Autowired
-    EmployerDAO dao;
+    final EmployerDAO dao;
+    final MailSender mailSender;
+
+    public SalaryHtmlReportNotifier( EmployerDAO dao, MailSender mailSender ) {
+        this.dao = dao;
+        this.mailSender = mailSender;
+    }
 
     public void generateAndSendHtmlSalaryReport( String departmentId, LocalDate dateFrom, LocalDate dateTo, String recipients ) {
         ReportDepartmentResultDto reportDepartmentResultDto =
@@ -44,7 +49,8 @@ public class SalaryHtmlReportNotifier {
                     , recipients
             );
 
-            MailSender.send( reportDto );
+
+            mailSender.send( reportDto );
         } catch ( MessagingException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
