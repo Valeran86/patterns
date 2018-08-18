@@ -18,7 +18,10 @@ public class SalaryHtmlReportNotifier {
     EmployerDAO dao;
 
     public void generateAndSendHtmlSalaryReport( String departmentId, LocalDate dateFrom, LocalDate dateTo, String recipients ) {
-        ReportDepartmentResultDto reportDepartmentResultDto = generateSalaryReport( new ReportDepartmentDto( departmentId, dateFrom, dateTo ) );
+        ReportDepartmentResultDto reportDepartmentResultDto =
+                generateSalaryReport(
+                        new ReportDepartmentDto( departmentId, dateFrom, dateTo )
+                );
 
         sendHtmlSalaryReport( reportDepartmentResultDto, recipients );
     }
@@ -44,6 +47,7 @@ public class SalaryHtmlReportNotifier {
             MailSender.send( reportDto );
         } catch ( MessagingException e ) {
             e.printStackTrace();
+            throw new RuntimeException( e );
         }
     }
 }

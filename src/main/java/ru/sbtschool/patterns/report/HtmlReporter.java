@@ -2,6 +2,8 @@ package ru.sbtschool.patterns.report;
 
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 
+import java.util.Objects;
+
 /**
  * Created by Home on 16.08.2018.
  */
@@ -22,7 +24,7 @@ public class HtmlReporter {
             resultingHtml.append( "<tr>" ); // add row start tag
 
             for ( int i = 0; i < columns.length; i++ ) {
-                resultingHtml.append( "<td>" ).append( row[ i ] ).append( "</td>" );
+                resultingHtml.append( surroundWith( "td", Objects.toString( row[ i ] ) ) );
             }
 
             resultingHtml.append( "</tr>" ); // add row end tag

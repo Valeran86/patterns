@@ -1,6 +1,7 @@
 package ru.sbtschool.patterns.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 import ru.sbtschool.patterns.dto.ReportDepartmentDto;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 /**
  * Created by Home on 16.08.2018.
  */
+@Service
 public class EmployerDAO {
 
     public static final String EMP_NAME = "emp_name";
