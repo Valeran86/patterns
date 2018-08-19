@@ -1,6 +1,5 @@
 package ru.sbtschool.patterns;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.sbtschool.patterns.dao.EmployerDAO;
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 import ru.sbtschool.patterns.dto.ReportDepartmentDto;
@@ -10,6 +9,7 @@ import ru.sbtschool.patterns.send.MailSender;
 
 import javax.mail.MessagingException;
 import java.sql.SQLException;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 
 public class SalaryHtmlReportNotifier {
@@ -22,13 +22,13 @@ public class SalaryHtmlReportNotifier {
         this.mailSender = mailSender;
     }
 
-    public void generateAndSendHtmlSalaryReport( String departmentId, LocalDate dateFrom, LocalDate dateTo, String recipients ) {
+    public void generateAndSendHtmlSalaryReport( String departmentId, LocalDate dateFrom, LocalDate dateTo, String recipients, DecimalFormatSymbols formatSymbols, String doublePatternFormat ) {
         ReportDepartmentResultDto reportDepartmentResultDto =
                 generateSalaryReport(
                         new ReportDepartmentDto( departmentId, dateFrom, dateTo )
                 );
 
-        sendHtmlSalaryReport( reportDepartmentResultDto, recipients );
+        sendHtmlSalaryReport( reportDepartmentResultDto, recipients, formatSymbols, doublePatternFormat );
     }
 
     public ReportDepartmentResultDto generateSalaryReport( ReportDepartmentDto reportDepartmentDto ) {
@@ -40,12 +40,12 @@ public class SalaryHtmlReportNotifier {
         }
     }
 
-    public void sendHtmlSalaryReport( ReportDepartmentResultDto salaryReport, String recipients ) {
+    public void sendHtmlSalaryReport( ReportDepartmentResultDto salaryReport, String recipients, DecimalFormatSymbols formatSymbols, String doublePatternFormat ) {
         try {
             ReportDto reportDto = new ReportDto(
                     "Monthly department salary report"
                     , true
-                    , HtmlReporter.toHtml( salaryReport )
+                    , HtmlReporter.toHtml( salaryReport, formatSymbols, doublePatternFormat )
                     , recipients
             );
 

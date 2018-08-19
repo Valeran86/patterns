@@ -1,12 +1,13 @@
 package ru.sbtschool.patterns2;
 
+import ru.sbtschool.patterns2.commands.*;
 /**
  * Created by Home on 16.08.2018.
  * https://bitbucket.org/agoshkoviv/patterns-homework-1/src/69a61334ea43ff4c3fd950a00095377cf1e3bfd4/src/main/java/ru/sbt/test/refactoring/?at=master
  */
 public class Tractor {
-    public static final String CMD_FORWARD = "F";
-    public static final String CMD_TURN = "T";
+    public static Command CMD_FORWARD;
+    public static Command CMD_TURN;
 
     private final Bounds bounds;
 
@@ -15,14 +16,13 @@ public class Tractor {
 
     public Tractor( Bounds bounds ) {
         this.bounds = bounds;
+        /*вот тут не смог придумать как нужно правильно инициализировать команды :( */
+        CMD_FORWARD = new ForwardCommand( this );
+        CMD_TURN = new TurnCommand( this );
     }
 
-    public void move( String command ) {
-        if ( command == CMD_FORWARD ) {
-            moveForwards();
-        } else if ( command == CMD_TURN ) {
-            turnClockwise();
-        }
+    public void move( Command command ) {
+        command.execute();
     }
 
     public void moveForwards() {
