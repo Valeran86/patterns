@@ -2,13 +2,15 @@ package ru.sbtschool.patterns.report;
 
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Objects;
 
 /**
  * Created by Home on 16.08.2018.
  */
 public class HtmlReporter {
-    public static String toHtml( ReportDepartmentResultDto departmentResultDto ) {
+    public static String toHtml( ReportDepartmentResultDto departmentResultDto, DecimalFormatSymbols formatSymbols, String doublePatternFormat ) {
         String[] columns = departmentResultDto.getColumns();
 
         // create a StringBuilder holding a resulting html
@@ -31,8 +33,16 @@ public class HtmlReporter {
         }
 
         resultingHtml.append( "<tr>" );
-        for ( Object total : departmentResultDto.getTotals() )
-            resultingHtml.append( "<td>").append( total ).append("</td>" );
+        for ( Object[] total : departmentResultDto.getTotals() ) {
+//            resultingHtml.append( "<td>" ).append( total ).append( "</td>" );
+            for ( int i = 0; i < columns.length; i++ ) {
+                resultingHtml.append( surroundWith( "td",
+                        total[i] instanceof Number
+                                ? new DecimalFormat( doublePatternFormat, formatSymbols ).format( total[i] )
+                                : String.valueOf( total[i] ) )
+                );
+            }
+        }
         resultingHtml.append( "</tr>" );
 
         resultingHtml.append( "</table></body></html>" );
