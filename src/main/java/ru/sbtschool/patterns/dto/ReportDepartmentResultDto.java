@@ -35,7 +35,7 @@ public class ReportDepartmentResultDto {
         return new ArrayList<>( rows );
     }
 
-    public Iterable<? extends Object> getTotals() {
+    public Iterable<? extends Object[]> getTotals() {
         return new ArrayList<>( totals );
     }
 }
