@@ -1,50 +1,27 @@
 package ru.sbtschool.patterns2;
 
-/**
- * Created by Home on 16.08.2018.
- * https://bitbucket.org/agoshkoviv/patterns-homework-1/src/69a61334ea43ff4c3fd950a00095377cf1e3bfd4/src/main/java/ru/sbt/test/refactoring/?at=master
- */
+import java.awt.*;
+
 public class Tractor {
-    public static final String CMD_FORWARD = "F";
-    public static final String CMD_TURN = "T";
 
-    private final Bounds bounds;
+	Point position = new Point(0,0);
+	int[] field = new int[] { 5, 5 };
+	Orientation orientation = Orientation.NORTH;
 
-    private int[] position = new int[]{ 0, 0 };
-    private Orientation orientation = Orientation.NORTH;
+	public void move(TractorCommands command) {
+		command.execute(this);
+	}
 
-    public Tractor( Bounds bounds ) {
-        this.bounds = bounds;
-    }
+	public int getPositionX() {
+		return position.x;
+	}
 
-    public void move( String command ) {
-        if ( command == CMD_FORWARD ) {
-            moveForwards();
-        } else if ( command == CMD_TURN ) {
-            turnClockwise();
-        }
-    }
+	public int getPositionY() {
+		return position.y;
+	}
 
-    public void moveForwards() {
-        position = orientation.move( position[ 0 ], position[ 1 ] );
+	public Orientation getOrientation() {
+		return orientation;
+	}
 
-        if ( !bounds.inBounds( position[ 0 ], position[ 1 ] ) )
-            throw new TractorInDitchException();
-    }
-
-    public void turnClockwise() {
-        orientation = orientation.turn();
-    }
-
-    public int getPositionX() {
-        return position[ 0 ];
-    }
-
-    public int getPositionY() {
-        return position[ 1 ];
-    }
-
-    public Orientation getOrientation() {
-        return orientation;
-    }
 }

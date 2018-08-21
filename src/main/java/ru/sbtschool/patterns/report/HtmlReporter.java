@@ -2,6 +2,7 @@ package ru.sbtschool.patterns.report;
 
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -30,11 +31,13 @@ public class HtmlReporter {
             resultingHtml.append( "</tr>" ); // add row end tag
         }
 
-        resultingHtml.append( "<tr>" );
-        for ( Object total : departmentResultDto.getTotals() )
-            resultingHtml.append( "<td>").append( total ).append("</td>" );
-        resultingHtml.append( "</tr>" );
 
+        for ( Object[] total : departmentResultDto.getTotals() ) {
+            resultingHtml.append( "<tr>" );
+            resultingHtml.append("<td>").append(total[0]).append("</td>");
+            resultingHtml.append("<td>").append(String.format( Locale.ENGLISH,"%.1f", total[1])).append("</td>");
+            resultingHtml.append("</tr>");
+        }
         resultingHtml.append( "</table></body></html>" );
 
         return resultingHtml.toString();
