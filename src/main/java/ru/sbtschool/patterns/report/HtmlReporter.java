@@ -2,6 +2,8 @@ package ru.sbtschool.patterns.report;
 
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -31,8 +33,11 @@ public class HtmlReporter {
         }
 
         resultingHtml.append( "<tr>" );
-        for ( Object total : departmentResultDto.getTotals() )
-            resultingHtml.append( "<td>").append( total ).append("</td>" );
+        for ( Object total[] : departmentResultDto.getTotals() ) {
+            for ( int i = 0; i < columns.length; i++ ) {
+                resultingHtml.append("<td>").append(total[i]).append("</td>");
+            }
+        }
         resultingHtml.append( "</tr>" );
 
         resultingHtml.append( "</table></body></html>" );

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.sbtschool.patterns.dto.ReportDepartmentResultDto;
 import ru.sbtschool.patterns.dto.ReportDepartmentDto;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +45,7 @@ public class EmployerDAO {
 
         ReportDepartmentResultDto resultDto = new ReportDepartmentResultDto( EMP_NAME, SALARY );
         ResultSet resultSet = ps.executeQuery();
-        double totals = 0;
+        BigDecimal totals = BigDecimal.valueOf(0.0);
         while ( resultSet.next() ) {
             double value = resultSet.getDouble( SALARY );
             Object[] row = new Object[] {
@@ -52,8 +53,7 @@ public class EmployerDAO {
                     , value
             };
             resultDto.appendRow( row );
-
-            totals += value; // add salary to totals
+            totals=totals.add(BigDecimal.valueOf(value));
         }
         resultDto.appendTotal( new Object[] { "Total", totals } );
 
